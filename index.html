@@ -1,3 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.9"></script>
+    <title>Вводная реплика эксперта</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: transparent;
+            padding: 10px 0;
+        }
+
+        .expert-typing-block {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .expert-photo-wrap {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #f1f5f9;
+            border: 2px solid #f39237; /* Оранжевый акцент */
+        }
+
+        .expert-photo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .expert-text-wrap {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #1e293b;
+            font-weight: 400;
+            min-height: 120px; 
+            flex-grow: 1;
+        }
+
+        .typing-cursor {
+            color: #f39237;
+            font-weight: 700;
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 640px) {
+            .expert-typing-block {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 16px;
+                padding: 20px;
+            }
+            
+            .expert-text-wrap {
+                min-height: 160px;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
 <div class="expert-typing-block">
     <div class="expert-photo-wrap">
         <img src="photo.jpg" alt="Эксперт">
@@ -7,84 +96,12 @@
     </div>
 </div>
 
-<style>
-    .expert-typing-block {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 28px;
-        display: flex;
-        align-items: flex-start;
-        gap: 24px;
-        width: 100%;
-        box-sizing: border-box;
-        margin: 24px 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    }
-
-    .expert-photo-wrap {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        overflow: hidden;
-        flex-shrink: 0;
-        background: #f1f5f9;
-        border: 2px solid #f39237; /* Оранжевый акцент */
-    }
-
-    .expert-photo-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .expert-text-wrap {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        font-size: 16px;
-        line-height: 1.5;
-        color: #1e293b;
-        font-weight: 400;
-        /* Минимальная высота, чтобы плашка не дергалась при перезапуске текста */
-        min-height: 120px; 
-        flex-grow: 1;
-    }
-
-    .typing-cursor {
-        color: #f39237;
-        font-weight: 700;
-        animation: blink 0.7s infinite;
-        margin-left: 2px;
-    }
-
-    @keyframes blink {
-        0% { opacity: 1; }
-        50% { opacity: 0; }
-        100% { opacity: 1; }
-    }
-
-    /* Адаптив под планшеты и мобилки */
-    @media (max-width: 640px) {
-        .expert-typing-block {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 16px;
-            padding: 20px;
-        }
-        
-        .expert-text-wrap {
-            min-height: 160px; /* Чуть больше высоты для мобильных экранов */
-            text-align: left;
-        }
-    }
-</style>
-
 <script>
     const textToType = "Я подготовил для вас входной тренажер. Пройдите его перед тем, как я начну объяснять материал. Этот шаг покажет вашу стартовую точку. Вы сразу увидите, совершите ли вы опасные ошибки в первые секунды, когда беспилотник угрожает объекту. Далее в уроке научу вас действовать в каждом опасном сценарии. Когда будете отвечать на вопросы, обязательно подумайте, отличается ли выбранный ответ от ваших реальных шагов на предприятии.";
     
     let charIndex = 0;
-    const typingSpeed = 25; // Скорость печати (мс на один символ)
-    const readPause = 7000; // Пауза для чтения после полного набора текста (7 секунд)
+    const typingSpeed = 25; 
+    const readPause = 7000; 
     
     const textField = document.getElementById('typing-field');
 
@@ -94,7 +111,6 @@
             charIndex++;
             setTimeout(startTyping, typingSpeed);
         } else {
-            // Когда текст напечатан полностью, ждем и запускаем заново
             setTimeout(() => {
                 textField.textContent = '';
                 charIndex = 0;
@@ -103,6 +119,8 @@
         }
     }
 
-    // Запуск анимации при загрузке страницы
     document.addEventListener('DOMContentLoaded', startTyping);
 </script>
+
+</body>
+</html>

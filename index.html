@@ -1,0 +1,108 @@
+<div class="expert-typing-block">
+    <div class="expert-photo-wrap">
+        <img src="photo.jpg" alt="Эксперт">
+    </div>
+    <div class="expert-text-wrap">
+        <span id="typing-field"></span><span class="typing-cursor">|</span>
+    </div>
+</div>
+
+<style>
+    .expert-typing-block {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 28px;
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 24px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .expert-photo-wrap {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #f1f5f9;
+        border: 2px solid #f39237; /* Оранжевый акцент */
+    }
+
+    .expert-photo-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .expert-text-wrap {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #1e293b;
+        font-weight: 400;
+        /* Минимальная высота, чтобы плашка не дергалась при перезапуске текста */
+        min-height: 120px; 
+        flex-grow: 1;
+    }
+
+    .typing-cursor {
+        color: #f39237;
+        font-weight: 700;
+        animation: blink 0.7s infinite;
+        margin-left: 2px;
+    }
+
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    /* Адаптив под планшеты и мобилки */
+    @media (max-width: 640px) {
+        .expert-typing-block {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            padding: 20px;
+        }
+        
+        .expert-text-wrap {
+            min-height: 160px; /* Чуть больше высоты для мобильных экранов */
+            text-align: left;
+        }
+    }
+</style>
+
+<script>
+    const textToType = "Я подготовил для вас входной тренажер. Пройдите его перед тем, как я начну объяснять материал. Этот шаг покажет вашу стартовую точку. Вы сразу увидите, совершите ли вы опасные ошибки в первые секунды, когда беспилотник угрожает объекту. Далее в уроке научу вас действовать в каждом опасном сценарии. Когда будете отвечать на вопросы, обязательно подумайте, отличается ли выбранный ответ от ваших реальных шагов на предприятии.";
+    
+    let charIndex = 0;
+    const typingSpeed = 25; // Скорость печати (мс на один символ)
+    const readPause = 7000; // Пауза для чтения после полного набора текста (7 секунд)
+    
+    const textField = document.getElementById('typing-field');
+
+    function startTyping() {
+        if (charIndex < textToType.length) {
+            textField.textContent += textToType.charAt(charIndex);
+            charIndex++;
+            setTimeout(startTyping, typingSpeed);
+        } else {
+            // Когда текст напечатан полностью, ждем и запускаем заново
+            setTimeout(() => {
+                textField.textContent = '';
+                charIndex = 0;
+                startTyping();
+            }, readPause);
+        }
+    }
+
+    // Запуск анимации при загрузке страницы
+    document.addEventListener('DOMContentLoaded', startTyping);
+</script>
